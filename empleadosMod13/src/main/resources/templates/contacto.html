@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head"></head>
+
+<script>
+    function manage(txt) {
+        var bt = document.getElementById('btSubmit');
+        if (txt.value != '') {
+            bt.disabled = false;
+        }
+        else {
+            bt.disabled = true;
+        }
+    }
+</script>
+<body> 
+					
+ <header th:replace="layout/layout :: header"></header>
+
+	<div class="container py-4">
+
+		<div class="card bg-light">
+			<div class="card-header" th:text="${titulo}"></div>
+			<div class="card-body">
+
+				<h4 class="card-title"
+					th:text="${contacto.empleado.getNombre() +' '+ contacto.empleado.getApellido()}">
+				</h4>
+<!-- 				<input   onkeyup="manage(this)" id="telefono" type="text"  	  /> -->
+				<form th:action="@{/contacto}" th:object="${contacto}" method="post">
+
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label"> Email </label>
+						<div class="col-sm-6">
+							<input  onkeyup="manage(this)" type="text" th:field="*{email}" class="form-control"
+								th:errorclass="'form-control alert-danger'" /> 
+							<small
+								class="form-text text-danger"
+								th:if="${#fields.hasErrors('email')}" th:errors="*{email}">
+							</small>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2  col-form-label"> Direccion </label>
+						<div class="col-sm-6">
+							<input  onkeyup="manage(this)" type="text" th:field="*{direccion}" class="form-control"
+								th:errorclass="'form-control alert-danger'" />
+							 <small	class="form-text text-danger"
+								th:if="${#fields.hasErrors('direccion')}"th:errors="*{direccion}">
+							 </small>
+						</div>
+					</div>																	
+								
+					<div class="form-group row">
+						<label class="col-sm-2  col-form-label">Telefono </label>
+						<div class="col-sm-6">
+							<input   onkeyup="manage(this)"  type="text" th:field="*{telefono}" class="form-control"
+								th:errorclass="'form-control alert-danger'"  />
+							 <small	class="form-text text-danger"
+								th:if="${#fields.hasErrors('telefono')}" th:errors="*{telefono}">
+							 </small>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-6">
+							<input id ="btSubmit"
+							 type="submit"    th:value="${enviar}"
+								class="btn btn-secondary" disabled />
+						</div>
+						<div th:if="*{id} == null" class="col-sm-6">
+							<a class="btn btn-secondary btn-xs" th:href="@{/listar}" th:text="'crear mas tarde'"></a>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<footer th:replace="layout/layout :: footer"></footer>	
+	
+</body>
+</html>
